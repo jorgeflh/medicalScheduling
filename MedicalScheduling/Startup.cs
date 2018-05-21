@@ -26,9 +26,11 @@ namespace MedicalScheduling
         {
             services.AddMvc();
 
-            var connection = @"Server=.\SQLExpress;Database=MedicalScheduling;Trusted_Connection=True;ConnectRetryCount=0";
+            // Melhor usar o appsetting
+            //var connection = @"Server=.\SQLExpress;Database=MedicalScheduling;Trusted_Connection=True;ConnectRetryCount=0";
+
             services.AddDbContext<MedicalSchedulingContext>(options =>
-                    options.UseSqlServer(connection));
+                    options.UseSqlServer(Configuration.GetConnectionString("MedicalSchedulingContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
