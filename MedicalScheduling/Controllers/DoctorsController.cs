@@ -21,6 +21,7 @@ namespace MedicalScheduling.Controllers
         }
 
         // GET: api/Doctors
+        [Route("~/api/GetAllDoctors")]
         [HttpGet]
         public IEnumerable<Doctors> GetDoctors()
         {
@@ -28,6 +29,7 @@ namespace MedicalScheduling.Controllers
         }
 
         // GET: api/Doctors/5
+        [Route("~/api/GetDoctor/{id}")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDoctors([FromRoute] int id)
         {
@@ -47,6 +49,7 @@ namespace MedicalScheduling.Controllers
         }
 
         // PUT: api/Doctors/5
+        [Route("~/api/UpdateDoctor/{id}")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDoctors([FromRoute] int id, [FromBody] Doctors doctors)
         {
@@ -82,6 +85,7 @@ namespace MedicalScheduling.Controllers
         }
 
         // POST: api/Doctors
+        [Route("~/api/AddDoctor/")]
         [HttpPost]
         public async Task<IActionResult> PostDoctors([FromBody] Doctors doctors)
         {
@@ -97,6 +101,7 @@ namespace MedicalScheduling.Controllers
         }
 
         // DELETE: api/Doctors/5
+        [Route("~/api/DeleteDoctor/{id}")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDoctors([FromRoute] int id)
         {
