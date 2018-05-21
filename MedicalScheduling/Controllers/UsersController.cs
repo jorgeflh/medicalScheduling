@@ -21,14 +21,16 @@ namespace MedicalScheduling.Controllers
         }
 
         // GET: api/Users
-        [HttpGet]
+        [Route("~/api/GetAllUsers")]
+        [HttpGet]        
         public IEnumerable<Users> GetUsers()
         {
             return _context.Users;
         }
 
-        // GET: api/Users/5
-        [HttpGet("{id}")]
+        // GET: api/Users/5        
+        [Route("~/api/GetUser/{id}")]
+        [HttpGet("{id}")]        
         public async Task<IActionResult> GetUsers([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -47,6 +49,7 @@ namespace MedicalScheduling.Controllers
         }
 
         // PUT: api/Users/5
+        [Route("~/api/UpdateUser/{id}")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUsers([FromRoute] int id, [FromBody] Users users)
         {
@@ -82,6 +85,7 @@ namespace MedicalScheduling.Controllers
         }
 
         // POST: api/Users
+        [Route("~/api/Adduser")]
         [HttpPost]
         public async Task<IActionResult> PostUsers([FromBody] Users users)
         {
@@ -97,6 +101,7 @@ namespace MedicalScheduling.Controllers
         }
 
         // DELETE: api/Users/5
+        [Route("~/api/DeleteUser/{id}")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUsers([FromRoute] int id)
         {
