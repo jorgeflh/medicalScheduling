@@ -26,7 +26,7 @@ namespace MedicalScheduling
         {
             services.AddMvc();
 
-            var connection = @"Server=./SQLExpress;Database=MedicalScheduling;Trusted_Connection=True;ConnectRetryCount=0";
+            var connection = @"Server=.\SQLExpress;Database=MedicalScheduling;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<MedicalSchedulingContext>(options =>
                     options.UseSqlServer(connection));
         }
