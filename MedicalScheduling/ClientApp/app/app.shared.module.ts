@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
+import { UserService } from './services/users.service'
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
-import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
-import { CounterComponent } from './components/counter/counter.component';
-import { UsersComponent } from './components/users/users.component';
+import { FetchUserComponent } from './components/fetchusers/fetchuser.component';
+import { CreateUser } from './components/adduser/adduser.component';
 import { DoctorsComponent } from './components/doctors/doctors.component';
 import { PatientsComponent } from './components/patients/patients.component';
 import { SchedulesComponent } from './components/schedules/schedules.component';
@@ -18,10 +18,9 @@ import { SchedulesComponent } from './components/schedules/schedules.component';
     declarations: [
         AppComponent,
         NavMenuComponent,
-        CounterComponent,
-        FetchDataComponent,
         HomeComponent,
-        UsersComponent,
+        FetchUserComponent,
+        CreateUser,
         DoctorsComponent,
         PatientsComponent,
         SchedulesComponent,
@@ -30,18 +29,20 @@ import { SchedulesComponent } from './components/schedules/schedules.component';
         CommonModule,
         HttpModule,
         FormsModule,
+        ReactiveFormsModule,
         RouterModule.forRoot([
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
-            { path: 'counter', component: CounterComponent },
-            { path: 'fetch-data', component: FetchDataComponent },
-            { path: 'users', component: UsersComponent },
+            { path: 'fetch-user', component: FetchUserComponent },
+            { path: 'register-user', component: CreateUser },
+            { path: 'user/edit/:id', component: CreateUser },
             { path: 'doctors', component: DoctorsComponent },
             { path: 'patients', component: PatientsComponent },
             { path: 'schedules', component: SchedulesComponent },
             { path: '**', redirectTo: 'home' }
         ])
-    ]
+    ],
+    providers: [UserService]
 })
 export class AppModuleShared {
 }
