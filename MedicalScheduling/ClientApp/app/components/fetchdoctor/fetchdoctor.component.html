@@ -1,0 +1,53 @@
+﻿<div id="main" class="container-fluid">
+    <div id="top" class="row">
+        <div class="col-md-3">
+            <h2>Médicos</h2>
+        </div>
+
+        <div class="col-md-3 col-md-offset-6">
+            <p>
+                <a class="btn btn-primary pull-right h2" [routerLink]="['/register-doctor']">Novo Médico</a>
+            </p>
+        </div>
+    </div> <!-- /#top -->
+
+    <hr />
+    <div id="list" class="row">
+        <div class="table-responsive col-md-12">
+
+            <p *ngIf="!doctorsList"><em>Loading...</em></p>
+
+            <table class='table table-striped' *ngIf="doctorsList" cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nome</th>
+                        <th class="actions">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let doctor of doctorsList">
+                        <td>{{ doctor.id }}</td>
+                        <td>{{ doctor.name }}</td>
+                        <td>
+                            <a class="btn btn-warning btn-xs" [routerLink]="['/doctor/edit/', doctor.id]">Editar</a>
+                            <a class="btn btn-danger btn-xs" [routerLink]="" (click)="delete(doctor.id)">Excluir</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div> <!-- /#list -->
+
+    <div id="bottom" class="row">
+        <div class="col-md-12">
+            <ul class="pagination">
+                <li class="disabled"><a>&lt; Anterior</a></li>
+                <li class="disabled"><a>1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li class="next"><a href="#" rel="next">Próximo &gt;</a></li>
+            </ul><!-- /.pagination -->
+        </div>
+    </div> <!-- /#bottom -->
+</div>  <!-- /#main -->
