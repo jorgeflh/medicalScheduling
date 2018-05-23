@@ -1,31 +1,55 @@
-﻿<h1>Usuário</h1>
+﻿<div id="main" class="container-fluid">
+    <div id="top" class="row">
+        <div class="col-md-3">
+            <h2>Usuários</h2>
+        </div>
 
-<p *ngIf="!usersList"><em>Loading...</em></p>
+        <div class="col-md-3 col-md-offset-6">
+            <p>
+                <a class="btn btn-primary pull-right h2" [routerLink]="['/register-user']">Novo Usuário</a>
+            </p>
+        </div>
+    </div> <!-- /#top -->
 
-<p>
-    <a [routerLink]="['/register-user']">Novo Usuário</a>
-</p>
+    <hr />
+    <div id="list" class="row">
+        <div class="table-responsive col-md-12">
 
-<table class='table' *ngIf="usersList">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Nome</th>
-            <th>Username</th>
-            <th>Senha</th>            
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let user of usersList">
-            <td>{{ user.id }}</td>
-            <td>{{ user.name }}</td>
-            <td>{{ user.userName }}</td>
-            <td>{{ user.password }}</td>            
-            <td>
-            <td>
-                <a [routerLink]="['/user/edit/', user.id]">Editar</a> |
-                <a [routerLink]="" (click)="delete(user.id)">Excluir</a>
-            </td>
-        </tr>
-    </tbody>
-</table>
+            <p *ngIf="!usersList"><em>Loading...</em></p>
+
+            <table class='table table-striped' *ngIf="usersList" cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nome</th>
+                        <th>Username</th>
+                        <th class="actions">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of usersList">
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.userName }}</td>
+                        <td>
+                            <a class="btn btn-warning btn-xs" [routerLink]="['/user/edit/', user.id]">Editar</a>
+                            <a class="btn btn-danger btn-xs" [routerLink]="" (click)="delete(user.id)">Excluir</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div> <!-- /#list -->
+
+    <div id="bottom" class="row">
+        <div class="col-md-12">
+            <ul class="pagination">
+                <li class="disabled"><a>&lt; Anterior</a></li>
+                <li class="disabled"><a>1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li class="next"><a href="#" rel="next">Próximo &gt;</a></li>
+            </ul><!-- /.pagination -->
+        </div>
+    </div> <!-- /#bottom -->
+</div>  <!-- /#main -->

@@ -21,7 +21,7 @@ export class FetchUserComponent {
     }
 
     delete(id:number) {
-        var ans = confirm("Do you want to delete customer with Id: " + id);
+        var ans = confirm("Você quer deletar o usuário de Id: " + id);
         if (ans) {
             this._userService.deleteUser(id).subscribe((data) => {
                 this.getUsers();

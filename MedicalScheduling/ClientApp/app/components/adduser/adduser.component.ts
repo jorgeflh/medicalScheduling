@@ -6,14 +6,13 @@ import { FetchUserComponent } from '../fetchusers/fetchuser.component';
 import { UserService } from '../../services/users.service';
 
 @Component({
-    selector: 'create-user',
     templateUrl: './adduser.component.html'
 })
 
 export class CreateUser implements OnInit {
     userForm: FormGroup;
     title: string = "Create";
-    id: number;
+    id: number = 0;
     errorMessage: any;
 
     constructor(private _fb: FormBuilder, private _avRoute: ActivatedRoute,
@@ -26,7 +25,7 @@ export class CreateUser implements OnInit {
             id: 0,
             name: ['', [Validators.required]],
             userName: ['', [Validators.required]],
-            password: ['', [Validators.required]]            
+            password: ['', [Validators.required]]
         })
     }
 
@@ -64,7 +63,7 @@ export class CreateUser implements OnInit {
         this._router.navigate(['/fetch-user']);
     }
 
-    get name() { return this.userForm.get('name'); }
-    get userName() { return this.userForm.get('userName'); }
-    get password() { return this.userForm.get('password'); }
+    get name() { return this.userForm.get('name')!.value; }
+    get userName() { return this.userForm.get('userName')!.value; }
+    get password() { return this.userForm.get('password')!.value; }
 }

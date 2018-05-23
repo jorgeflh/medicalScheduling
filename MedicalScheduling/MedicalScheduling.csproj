@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
@@ -20,7 +20,10 @@
 
   <ItemGroup>
     <!-- Files not to publish (note that the 'dist' subfolders are re-added below) -->
+    <Compile Remove="ClientApp\app\components\createPatient\**" />
     <Content Remove="ClientApp\**" />
+    <EmbeddedResource Remove="ClientApp\app\components\createPatient\**" />
+    <None Remove="ClientApp\app\components\createPatient\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,10 +42,6 @@
     <TypeScriptCompile Include="ClientApp\app\components\schedules\schedules.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\adduser\adduser.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\users.service.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ClientApp\app\components\createPatient\" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
