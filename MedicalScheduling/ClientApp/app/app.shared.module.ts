@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
-import { UserService } from './services/users.service'
+import { UserService } from './services/users.service';
+import { DoctorService } from './services/doctors.service';
+import { PatientService } from './services/patients.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -12,9 +14,9 @@ import { FetchUserComponent } from './components/fetchusers/fetchuser.component'
 import { CreateUser } from './components/adduser/adduser.component';
 import { FetchDoctorComponent } from './components/fetchdoctor/fetchdoctor.component';
 import { CreateDoctor } from './components/adddoctor/adddoctor.component';
-import { PatientsComponent } from './components/patients/patients.component';
+import { FetchPatientComponent } from './components/fetchpatient/fetchpatient.component';
+import { CreatePatient } from './components/addpatient/addpatient.component';
 import { SchedulesComponent } from './components/schedules/schedules.component';
-import { DoctorService } from './services/doctors.service';
 
 @NgModule({
     declarations: [
@@ -25,7 +27,8 @@ import { DoctorService } from './services/doctors.service';
         CreateUser,
         FetchDoctorComponent,
         CreateDoctor,
-        PatientsComponent,
+        FetchPatientComponent,
+        CreatePatient,
         SchedulesComponent,
     ],
     imports: [
@@ -42,12 +45,14 @@ import { DoctorService } from './services/doctors.service';
             { path: 'fetch-doctor', component: FetchDoctorComponent },
             { path: 'register-doctor', component: CreateDoctor },
             { path: 'doctor/edit/:id', component: CreateDoctor },
-            { path: 'patients', component: PatientsComponent },
+            { path: 'fetch-patient', component: FetchPatientComponent },
+            { path: 'register-patient', component: CreatePatient },
+            { path: 'patient/edit/:id', component: CreatePatient },
             { path: 'schedules', component: SchedulesComponent },
             { path: '**', redirectTo: 'home' }
         ])
     ],
-    providers: [UserService, DoctorService]
+    providers: [UserService, DoctorService, PatientService]
 })
 export class AppModuleShared {
 }
