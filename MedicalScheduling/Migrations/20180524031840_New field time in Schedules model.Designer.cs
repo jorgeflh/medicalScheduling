@@ -10,9 +10,10 @@ using System;
 namespace MedicalScheduling.Migrations
 {
     [DbContext(typeof(MedicalSchedulingContext))]
-    partial class MedicalSchedulingContextModelSnapshot : ModelSnapshot
+    [Migration("20180524031840_New field time in Schedules model")]
+    partial class NewfieldtimeinSchedulesmodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

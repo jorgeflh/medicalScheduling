@@ -14,6 +14,7 @@ export class CreateSchedule implements OnInit {
     title: string = "Create";
     id: number = 0;
     errorMessage: any;
+    timeList = new Array<string>();
 
     constructor(private _fb: FormBuilder, private _avRoute: ActivatedRoute,
         private _scheduleService: ScheduleService, private _router: Router) {
@@ -25,7 +26,8 @@ export class CreateSchedule implements OnInit {
             id: 0,
             doctorId: ['', [Validators.required]],
             patientId: ['', [Validators.required]],
-            date: ['', [Validators.required]]
+            date: ['', [Validators.required]],
+            time: ['', [Validators.required]]
         })
     }
 
@@ -36,6 +38,15 @@ export class CreateSchedule implements OnInit {
                 .subscribe(resp => this.scheduleForm.setValue(resp)
                     , error => this.errorMessage = error);
         }
+
+        for (var i = 8; i <= 18; i++) {
+            if (i < 10)
+                this.timeList.push("0" + i + ":00:00");
+            else
+                this.timeList.push(i + ":00:00");
+        }
+
+        console.log(this.timeList);
     }
 
     save() {
@@ -65,4 +76,5 @@ export class CreateSchedule implements OnInit {
     get doctorId() { return this.scheduleForm.get('doctorId')!.value; }
     get patientId() { return this.scheduleForm.get('patientId')!.value; }
     get date() { return this.scheduleForm.get('date')!.value; }
+    get time() { return this.scheduleForm.get('time')!.value; }
 }

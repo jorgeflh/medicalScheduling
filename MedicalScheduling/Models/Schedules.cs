@@ -16,5 +16,6 @@ namespace MedicalScheduling.Models
         public virtual Patients Patient { get; set; }
 
         public DateTime Date { get; set; }
+        public string Time { get; set; }
     }
 }

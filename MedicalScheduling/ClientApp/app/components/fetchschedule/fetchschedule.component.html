@@ -23,6 +23,7 @@
                         <th>Id</th>
                         <th>Médico</th>
                         <th>Paciente</th>
+                        <th>Data</th>
                         <th class="actions">Ações</th>
                     </tr>
                 </thead>
@@ -31,6 +32,7 @@
                         <td>{{ schedule.id }}</td>
                         <td>{{ schedule.doctorId }}</td>
                         <td>{{ schedule.patientId }}</td>
+                        <td>{{ schedule.date | date: 'short' }}</td>
                         <td>
                             <a class="btn btn-warning btn-xs" [routerLink]="['/schedule/edit/', schedule.id]">Editar</a>
                             <a class="btn btn-danger btn-xs" [routerLink]="" (click)="delete(schedule.id)">Excluir</a>

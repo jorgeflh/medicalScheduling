@@ -25,7 +25,15 @@ namespace MedicalScheduling.Controllers
         [HttpGet]
         public IEnumerable<Schedules> GetSchedules()
         {
-            return _context.Schedules;
+            var scheduleList = _context.Schedules;
+
+            foreach (var item in scheduleList)
+            {
+                item.Doctor = _context.Doctors.Where(d => d.Id == item.DoctorId).SingleOrDefault();
+                item.Patient = _context.Patients.Where(p => p.Id == item.PatientId).SingleOrDefault();
+            }
+
+            return scheduleList;
         }
 
         // GET: api/Schedules/5
@@ -63,6 +71,7 @@ namespace MedicalScheduling.Controllers
                 return BadRequest();
             }
 
+            schedules.Date = schedules.Date.Add(TimeSpan.Parse(schedules.Time));
             _context.Entry(schedules).State = EntityState.Modified;
 
             try
@@ -93,6 +102,8 @@ namespace MedicalScheduling.Controllers
             {
                 return BadRequest(ModelState);
             }
+
+            schedules.Date = schedules.Date.Add(TimeSpan.Parse(schedules.Time));
 
             _context.Schedules.Add(schedules);
             await _context.SaveChangesAsync();
