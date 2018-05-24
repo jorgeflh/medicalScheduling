@@ -29,24 +29,30 @@
   <ItemGroup>
     <None Remove="ClientApp\app\components\adddoctor\adddoctor.component.ts" />
     <None Remove="ClientApp\app\components\addpatient\addpatient.component.ts" />
+    <None Remove="ClientApp\app\components\addschedule\addschedule.component.ts" />
     <None Remove="ClientApp\app\components\adduser\adduser.component.ts" />
     <None Remove="ClientApp\app\components\fetchdoctor\fetchdoctor.component.ts" />
     <None Remove="ClientApp\app\components\fetchpatient\fetchpatient.component.ts" />
+    <None Remove="ClientApp\app\components\fetchschedule\fetchschedule.component.ts" />
     <None Remove="ClientApp\app\components\fetchusers\fetchuser.component.ts" />
     <None Remove="ClientApp\app\components\schedules\schedules.component.ts" />
     <None Remove="ClientApp\app\services\doctors.service.ts" />
     <None Remove="ClientApp\app\services\patients.service.ts" />
+    <None Remove="ClientApp\app\services\schedules.service.ts" />
     <None Remove="ClientApp\app\services\users.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\app\components\addpatient\addpatient.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\adddoctor\adddoctor.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\addschedule\addschedule.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\fetchschedule\fetchschedule.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\fetchpatient\fetchpatient.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\fetchdoctor\fetchdoctor.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\fetchusers\fetchuser.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\schedules\schedules.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\adduser\adduser.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\services\schedules.service.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\patients.service.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\doctors.service.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\users.service.ts" />

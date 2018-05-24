@@ -1,0 +1,38 @@
+﻿<div id="main" class="container-fluid">
+    <h3 class="page-header">Agendamento</h3>
+
+    <form [formGroup]="scheduleForm" (ngSubmit)="save()" #formDir="ngForm" novalidate>
+        <div class="form-group row">
+            <label class="control-label col-md-12">DoctorId</label>
+            <div class="col-md-4">
+                <input class="form-control" type="text" formControlName="doctorId">
+            </div>
+            <span class="text-danger" *ngIf="doctorId.invalid && formDir.submitted">
+                O médico é requerido!
+            </span>
+        </div>
+        <div class="form-group row">
+            <label class="control-label col-md-12">PatientId</label>
+            <div class="col-md-4">
+                <input class="form-control" type="text" formControlName="patientId">
+            </div>
+            <span class="text-danger" *ngIf="patientId.invalid && formDir.submitted">
+                O paciente é requerido
+            </span>
+        </div>
+        <div class="form-group row">
+            <label class="control-label col-md-12">Data</label>
+            <div class="col-md-4">
+                <input class="form-control" type="date" formControlName="date">
+            </div>
+            <span class="text-danger" *ngIf="date.invalid && formDir.submitted">
+                A data é requerida!
+            </span>
+        </div>
+        <hr />
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <button class="btn btn-default" (click)="cancel()">Cancelar</button>
+        </div>
+    </form>
+</div>

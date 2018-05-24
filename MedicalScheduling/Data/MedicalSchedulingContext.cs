@@ -17,4 +17,6 @@ using MedicalScheduling.Models;
         public DbSet<MedicalScheduling.Models.Patients> Patients { get; set; }
 
         public DbSet<MedicalScheduling.Models.Doctors> Doctors { get; set; }
+
+        public DbSet<MedicalScheduling.Models.Schedules> Schedules { get; set; }
     }

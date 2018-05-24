@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { UserService } from './services/users.service';
 import { DoctorService } from './services/doctors.service';
 import { PatientService } from './services/patients.service';
+import { ScheduleService } from './services/schedules.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -16,7 +17,8 @@ import { FetchDoctorComponent } from './components/fetchdoctor/fetchdoctor.compo
 import { CreateDoctor } from './components/adddoctor/adddoctor.component';
 import { FetchPatientComponent } from './components/fetchpatient/fetchpatient.component';
 import { CreatePatient } from './components/addpatient/addpatient.component';
-import { SchedulesComponent } from './components/schedules/schedules.component';
+import { FetchScheduleComponent } from './components/fetchschedule/fetchschedule.component';
+import { CreateSchedule } from './components/addschedule/addschedule.component';
 
 @NgModule({
     declarations: [
@@ -29,7 +31,8 @@ import { SchedulesComponent } from './components/schedules/schedules.component';
         CreateDoctor,
         FetchPatientComponent,
         CreatePatient,
-        SchedulesComponent,
+        FetchScheduleComponent,
+        CreateSchedule
     ],
     imports: [
         CommonModule,
@@ -48,11 +51,13 @@ import { SchedulesComponent } from './components/schedules/schedules.component';
             { path: 'fetch-patient', component: FetchPatientComponent },
             { path: 'register-patient', component: CreatePatient },
             { path: 'patient/edit/:id', component: CreatePatient },
-            { path: 'schedules', component: SchedulesComponent },
+            { path: 'fetch-schedule', component: FetchScheduleComponent },
+            { path: 'register-schedule', component: CreateSchedule },
+            { path: 'schedule/edit/:id', component: CreateSchedule },
             { path: '**', redirectTo: 'home' }
         ])
     ],
-    providers: [UserService, DoctorService, PatientService]
+    providers: [UserService, DoctorService, PatientService, ScheduleService]
 })
 export class AppModuleShared {
 }
