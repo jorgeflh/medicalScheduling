@@ -33,7 +33,9 @@ export class FetchScheduleComponent {
 interface ScheduleData {
     id: number;
     doctorId: number;
+    doctorName: string;
     patientId: number;
+    patientName: string;
     date: string;
     time: string;
 }

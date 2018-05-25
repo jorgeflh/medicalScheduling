@@ -46,9 +46,9 @@ export class CreateSchedule implements OnInit {
 
         for (var i = 8; i <= 18; i++) {
             if (i < 10)
-                this.timeList.push("0" + i + ":00:00");
+                this.timeList.push("0" + i + ":00");
             else
-                this.timeList.push(i + ":00:00");
+                this.timeList.push(i + ":00");
         }
 
         console.log(this.timeList);
@@ -79,8 +79,9 @@ export class CreateSchedule implements OnInit {
     }
 
     get doctorId() { return this.scheduleForm.get('doctorId')!.value; }
-    get doctor() { return this.scheduleForm.get('doctor.name')!.value; }
+    get doctorName() { return this.scheduleForm.get('doctorName')!.value; }
     get patientId() { return this.scheduleForm.get('patientId')!.value; }
+    get patientName() { return this.scheduleForm.get('patientName')!.value; }
     get date() { return this.scheduleForm.get('date')!.value; }
     get time() { return this.scheduleForm.get('time')!.value; }
 }

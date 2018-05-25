@@ -32,7 +32,11 @@ export class ScheduleService {
             .catch(this.errorHandler)
     }
 
-    updateSchedule(id:number, schedule:any) {
+    updateSchedule(id: number, schedule: any) {
+
+        schedule.date = schedule.date + " " + schedule.time;
+        console.log(schedule);
+
         return this._http.put(this.myAppUrl + 'api/UpdateSchedule/' + id, schedule)
             .map((response: Response) => response.json())
             .catch(this.errorHandler);

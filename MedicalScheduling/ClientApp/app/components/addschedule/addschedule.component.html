@@ -34,7 +34,7 @@
         <div class="form-group row">
             <label class="control-label col-md-12">Hora</label>
             <div class="col-md-4">
-                <select formControlName="time">
+                <select formControlName="time" class="form-control">
                     <option *ngFor="let t of timeList" [value]="t">{{t}}</option>
                 </select>
             </div>

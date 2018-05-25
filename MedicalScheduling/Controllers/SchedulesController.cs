@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MedicalScheduling.Models;
+using MedicalScheduling.DTO;
 
 namespace MedicalScheduling.Controllers
 {
@@ -23,17 +24,27 @@ namespace MedicalScheduling.Controllers
         // GET: api/Schedules
         [Route("~/api/GetAllSchedules")]
         [HttpGet]
-        public IEnumerable<Schedules> GetSchedules()
+        public IEnumerable<ScheduleDTO> GetSchedules()
         {
             var scheduleList = _context.Schedules;
+            List<ScheduleDTO> scheduleDTOList = new List<ScheduleDTO>();
 
-            //foreach (var item in scheduleList)
-            //{
-            //    item.Doctor = _context.Doctors.Where(d => d.Id == item.DoctorId).SingleOrDefault();
-            //    item.Patient = _context.Patients.Where(p => p.Id == item.PatientId).SingleOrDefault();
-            //}
+            foreach (var item in scheduleList)
+            {
+                ScheduleDTO scheduleDTO = new ScheduleDTO
+                {
+                    Id = item.Id,
+                    DoctorId = item.DoctorId,
+                    DoctorName = _context.Doctors.Where(d => d.Id == item.DoctorId).SingleOrDefault().Name,
+                    PatientId = item.PatientId,
+                    PatientName = _context.Patients.Where(p => p.Id == item.PatientId).SingleOrDefault().Name,
+                    Date = item.Date.ToShortDateString(),
+                    Time = item.Date.ToShortTimeString()
+                };
+                scheduleDTOList.Add(scheduleDTO);
+            }
 
-            return scheduleList;
+            return scheduleDTOList;
         }
 
         // GET: api/Schedules/5
@@ -53,10 +64,18 @@ namespace MedicalScheduling.Controllers
                 return NotFound();
             }
 
-            //schedule.Doctor = await _context.Doctors.SingleOrDefaultAsync(m => m.Id == id);
-            //schedule.Patient = await _context.Patients.SingleOrDefaultAsync(m => m.Id == id);
-
-            return Ok(schedule);
+            ScheduleDTO scheduleDTO = new ScheduleDTO
+            {
+                Id = schedule.Id,
+                DoctorId = schedule.DoctorId,
+                DoctorName = _context.Doctors.Where(d => d.Id == schedule.DoctorId).SingleOrDefault().Name,
+                PatientId = schedule.PatientId,
+                PatientName = _context.Patients.Where(d => d.Id == schedule.PatientId).SingleOrDefault().Name,
+                Date = schedule.Date.ToString("yyyy-MM-dd"),
+                Time = schedule.Date.ToShortTimeString()
+            };
+           
+            return Ok(scheduleDTO);
         }
 
         // PUT: api/Schedules/5
