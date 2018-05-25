@@ -27,11 +27,11 @@ namespace MedicalScheduling.Controllers
         {
             var scheduleList = _context.Schedules;
 
-            foreach (var item in scheduleList)
-            {
-                item.Doctor = _context.Doctors.Where(d => d.Id == item.DoctorId).SingleOrDefault();
-                item.Patient = _context.Patients.Where(p => p.Id == item.PatientId).SingleOrDefault();
-            }
+            //foreach (var item in scheduleList)
+            //{
+            //    item.Doctor = _context.Doctors.Where(d => d.Id == item.DoctorId).SingleOrDefault();
+            //    item.Patient = _context.Patients.Where(p => p.Id == item.PatientId).SingleOrDefault();
+            //}
 
             return scheduleList;
         }
@@ -46,14 +46,17 @@ namespace MedicalScheduling.Controllers
                 return BadRequest(ModelState);
             }
 
-            var schedules = await _context.Schedules.SingleOrDefaultAsync(m => m.Id == id);
+            var schedule = await _context.Schedules.SingleOrDefaultAsync(m => m.Id == id);
 
-            if (schedules == null)
+            if (schedule == null)
             {
                 return NotFound();
             }
 
-            return Ok(schedules);
+            //schedule.Doctor = await _context.Doctors.SingleOrDefaultAsync(m => m.Id == id);
+            //schedule.Patient = await _context.Patients.SingleOrDefaultAsync(m => m.Id == id);
+
+            return Ok(schedule);
         }
 
         // PUT: api/Schedules/5
@@ -71,7 +74,6 @@ namespace MedicalScheduling.Controllers
                 return BadRequest();
             }
 
-            schedules.Date = schedules.Date.Add(TimeSpan.Parse(schedules.Time));
             _context.Entry(schedules).State = EntityState.Modified;
 
             try
@@ -102,9 +104,7 @@ namespace MedicalScheduling.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            schedules.Date = schedules.Date.Add(TimeSpan.Parse(schedules.Time));
-
+            
             _context.Schedules.Add(schedules);
             await _context.SaveChangesAsync();
 

@@ -38,14 +38,14 @@ namespace MedicalScheduling.Controllers
                 return BadRequest(ModelState);
             }
 
-            var doctors = await _context.Doctors.SingleOrDefaultAsync(m => m.Id == id);
+            var doctor = await _context.Doctors.SingleOrDefaultAsync(m => m.Id == id);
 
-            if (doctors == null)
+            if (doctor == null)
             {
                 return NotFound();
             }
 
-            return Ok(doctors);
+            return Ok(doctor);
         }
 
         // PUT: api/Doctors/5

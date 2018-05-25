@@ -8,7 +8,7 @@ import { PatientService } from '../../services/patients.service'
 })
 
 export class FetchPatientComponent {
-    public patientsList: PatientData[];
+    public patientsList: PatientData[] = [];
 
     constructor(public http: Http, private _router: Router, private _patientService: PatientService) {
         this.getPatients();

@@ -25,7 +25,9 @@ export class CreateSchedule implements OnInit {
         this.scheduleForm = this._fb.group({
             id: 0,
             doctorId: ['', [Validators.required]],
+            doctorName: ['', [Validators.required]],
             patientId: ['', [Validators.required]],
+            patientName: ['', [Validators.required]],
             date: ['', [Validators.required]],
             time: ['', [Validators.required]]
         })
@@ -36,7 +38,10 @@ export class CreateSchedule implements OnInit {
             this.title = "Edit";
             this._scheduleService.getScheduleById(this.id)
                 .subscribe(resp => this.scheduleForm.setValue(resp)
-                    , error => this.errorMessage = error);
+                , error => this.errorMessage = error);
+
+            this._scheduleService.getScheduleById(this.id)
+                .subscribe(resp => console.log(resp), error => this.errorMessage = error);
         }
 
         for (var i = 8; i <= 18; i++) {
@@ -74,6 +79,7 @@ export class CreateSchedule implements OnInit {
     }
 
     get doctorId() { return this.scheduleForm.get('doctorId')!.value; }
+    get doctor() { return this.scheduleForm.get('doctor.name')!.value; }
     get patientId() { return this.scheduleForm.get('patientId')!.value; }
     get date() { return this.scheduleForm.get('date')!.value; }
     get time() { return this.scheduleForm.get('time')!.value; }

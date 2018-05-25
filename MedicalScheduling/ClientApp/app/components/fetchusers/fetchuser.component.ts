@@ -8,7 +8,7 @@ import { UserService } from '../../services/users.service'
 })
 
 export class FetchUserComponent {
-    public usersList: UserData[];
+    public usersList: UserData[] = [];
 
     constructor(public http: Http, private _router: Router, private _userService: UserService) {
         this.getUsers();

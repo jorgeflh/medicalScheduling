@@ -8,7 +8,7 @@ import { ScheduleService } from '../../services/schedules.service';
 })
 
 export class FetchScheduleComponent {
-    public scheduleList: ScheduleData[];
+    public scheduleList: ScheduleData[] = [];
 
     constructor(public http: Http, private _router: Router, private _scheduleService: ScheduleService) {
         this.getSchedules();

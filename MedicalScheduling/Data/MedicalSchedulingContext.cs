@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MedicalScheduling.Models;
 
+namespace MedicalScheduling
+{
     public class MedicalSchedulingContext : DbContext
     {
-        public MedicalSchedulingContext (DbContextOptions<MedicalSchedulingContext> options)
+        public MedicalSchedulingContext(DbContextOptions<MedicalSchedulingContext> options)
             : base(options)
         {
         }
@@ -20,3 +22,5 @@ using MedicalScheduling.Models;
 
         public DbSet<MedicalScheduling.Models.Schedules> Schedules { get; set; }
     }
+
+}
