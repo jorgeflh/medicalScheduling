@@ -1,27 +1,43 @@
 ﻿<div id="main" class="container-fluid">
     <h3 class="page-header">Agendamento</h3>
 
-    <form [formGroup]="scheduleForm" (ngSubmit)="save()" #formDir="ngForm" novalidate>        
+    <form [formGroup]="scheduleForm" (ngSubmit)="save()" #formDir="ngForm" novalidate>
         <div class="form-group row">
             <label class="control-label col-md-12">Médico</label>
             <div class="col-md-4">
                 <input class="form-control" type="hidden" formControlName="doctorId">
-                <input class="form-control" type="text" formControlName="doctorName">
+                <input class="form-control" type="text" formControlName="doctorName" [(ngModel)]="doctorName" (keyup)="searchDoctor(doctorName)" />
+                <div class="search-result" *ngIf="flagDoctor">
+                    <ul class="list-group">
+                        <li *ngFor="let doctor of doctors | async" class="list-group-item">
+                            <a (click)="onselectDoctor(doctor)">{{doctor.name}}</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <span class="text-danger" *ngIf="doctorId.invalid && formDir.submitted">
                 O médico é requerido!
             </span>
         </div>
+
         <div class="form-group row">
             <label class="control-label col-md-12">Paciente</label>
             <div class="col-md-4">
                 <input class="form-control" type="hidden" formControlName="patientId">
-                <input class="form-control" type="text" formControlName="patientName">
+                <input class="form-control" type="text" formControlName="patientName" [(ngModel)]="patientName" (keyup)="searchPatient(patientName)" />
+                <div class="search-result" *ngIf="flagPatient">
+                    <ul class="list-group">
+                        <li *ngFor="let patient of patients | async" class="list-group-item">
+                            <a (click)="onselectPatient(patient)">{{patient.name}}</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <span class="text-danger" *ngIf="patientId.invalid && formDir.submitted">
-                O paciente é requerido
+                O paciente é requerido!
             </span>
         </div>
+
         <div class="form-group row">
             <label class="control-label col-md-12">Data</label>
             <div class="col-md-4">

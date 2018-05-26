@@ -13,6 +13,26 @@ export class ScheduleService {
     constructor(private _http: Http, @Inject('BASE_URL') baseUrl: string) {
         this.myAppUrl = baseUrl;
     }
+
+    searchDoctor(term: string): Observable<any[]> {
+        var doctorList = this._http.get(this.myAppUrl + 'api/GetDoctorList/' + term)
+            .map((r: Response) => {
+                return (r.json().length != 0 ? r.json() : [{ "id": 0, "name": "Não encontrado" }]) as any[]
+            });
+
+        console.log(doctorList);
+        return doctorList;
+    }  
+
+    searchPatient(term: string): Observable<any[]> {
+        var patientList = this._http.get(this.myAppUrl + 'api/GetPatientList/' + term)
+            .map((r: Response) => {
+                return (r.json().length != 0 ? r.json() : [{ "id": 0, "name": "Não encontrado" }]) as any[]
+            });
+
+        console.log(patientList);
+        return patientList;
+    }  
     
     getSchedules() {
         return this._http.get(this.myAppUrl + 'api/GetAllSchedules')
@@ -26,7 +46,11 @@ export class ScheduleService {
             .catch(this.errorHandler)
     }
 
-    saveSchedule(schedule:any) {
+    saveSchedule(schedule: any) {
+
+        schedule.date = schedule.date + " " + schedule.time;
+        console.log(schedule);
+
         return this._http.post(this.myAppUrl + 'api/AddSchedule/', schedule)
             .map((response: Response) => response.json())
             .catch(this.errorHandler)
@@ -46,14 +70,6 @@ export class ScheduleService {
         return this._http.delete(this.myAppUrl + "api/DeleteSchedule/" + id)
             .map((response: Response) => response.json())
             .catch(this.errorHandler);
-    }
-
-    searchWord(term:any) {
-        return this._http.get("https://api.datamuse.com/words?ml=" + term).map(res => {
-            return res.json().map(item => {
-                return item.word
-            })
-        })
     }
 
     errorHandler(error: Response) {

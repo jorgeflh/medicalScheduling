@@ -2,6 +2,7 @@
 import { Http, Headers } from '@angular/http';
 import { NgForm, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Observable, Subject } from 'rxjs';
 import { FetchScheduleComponent } from '../fetchschedule/fetchschedule.component';
 import { ScheduleService } from '../../services/schedules.service';
 
@@ -15,7 +16,12 @@ export class CreateSchedule implements OnInit {
     id: number = 0;
     errorMessage: any;
     timeList = new Array<string>();
-    searchResult = [];
+    flagDoctor: boolean = true;
+    flagPatient: boolean = true;
+    searchDoctorTerms = new Subject<string>();
+    searchPatientTerms = new Subject<string>();
+    doctors: Observable<any[]>;
+    patients: Observable<any[]>;
 
     constructor(private _fb: FormBuilder, private _avRoute: ActivatedRoute,
         private _scheduleService: ScheduleService, private _router: Router) {
@@ -51,6 +57,24 @@ export class CreateSchedule implements OnInit {
             else
                 this.timeList.push(i + ":00");
         }
+
+        this.doctors = this.searchDoctorTerms
+            .debounceTime(300)
+            .distinctUntilChanged()
+            .switchMap(term => term ? this._scheduleService.searchDoctor(term) : Observable.of<any[]>([]))
+            .catch(error => {
+                console.log(error);
+                return Observable.of<any[]>([]);
+            });  
+
+        this.patients = this.searchPatientTerms
+            .debounceTime(300)
+            .distinctUntilChanged()
+            .switchMap(term => term ? this._scheduleService.searchPatient(term) : Observable.of<any[]>([]))
+            .catch(error => {
+                console.log(error);
+                return Observable.of<any[]>([]);
+            });  
     }
 
     save() {
@@ -83,4 +107,38 @@ export class CreateSchedule implements OnInit {
     get patientName() { return this.scheduleForm.get('patientName')!.value; }
     get date() { return this.scheduleForm.get('date')!.value; }
     get time() { return this.scheduleForm.get('time')!.value; }
+
+    // Fetch doctors
+    searchDoctor(term: string): void {
+        this.flagDoctor = true;
+        this.searchDoctorTerms.next(term);
+    }
+
+    onselectDoctor(DoctorObj:any) {
+        if (DoctorObj.doctorId != 0) {
+            this.scheduleForm.get('doctorId')!.setValue(DoctorObj.id);
+            this.scheduleForm.get('doctorName')!.setValue(DoctorObj.name);
+            this.flagDoctor = false;
+        }
+        else {
+            return false;
+        }
+    }  
+
+    // Fetch patients
+    searchPatient(term: string): void {
+        this.flagPatient = true;
+        this.searchPatientTerms.next(term);
+    }
+
+    onselectPatient(PatientObj: any) {
+        if (PatientObj.patientId != 0) {
+            this.scheduleForm.get('patientId')!.setValue(PatientObj.id);
+            this.scheduleForm.get('patientName')!.setValue(PatientObj.name);
+            this.flagPatient = false;
+        }
+        else {
+            return false;
+        }
+    }  
 }

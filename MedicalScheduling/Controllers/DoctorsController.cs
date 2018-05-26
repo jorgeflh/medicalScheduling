@@ -30,7 +30,7 @@ namespace MedicalScheduling.Controllers
 
         [Route("~/api/GetDoctorList/{term}")]
         [HttpGet]
-        public IEnumerable<Doctors> GetDoctorList(string term)
+        public IEnumerable<Doctors> GetDoctorList([FromRoute] string term)
         {
             var doctorsList = _context.Doctors.Where(d => d.Name.Contains(term)).ToList();
             return doctorsList;
