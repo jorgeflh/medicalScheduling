@@ -44,7 +44,7 @@ namespace MedicalScheduling.Controllers
                 scheduleDTOList.Add(scheduleDTO);
             }
 
-            return scheduleDTOList;
+            return scheduleDTOList.OrderByDescending(s => s.Date).ThenBy(s => s.Time);
         }
 
         // GET: api/Schedules/5
