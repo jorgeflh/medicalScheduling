@@ -28,6 +28,14 @@ namespace MedicalScheduling.Controllers
             return _context.Doctors;
         }
 
+        [Route("~/api/GetDoctorList/{term}")]
+        [HttpGet]
+        public IEnumerable<Doctors> GetDoctorList(string term)
+        {
+            var doctorsList = _context.Doctors.Where(d => d.Name.Contains(term)).ToList();
+            return doctorsList;
+        }
+
         // GET: api/Doctors/5
         [Route("~/api/GetDoctor/{id}")]
         [HttpGet("{id}")]

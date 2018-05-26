@@ -35,7 +35,6 @@
     <None Remove="ClientApp\app\components\fetchpatient\fetchpatient.component.ts" />
     <None Remove="ClientApp\app\components\fetchschedule\fetchschedule.component.ts" />
     <None Remove="ClientApp\app\components\fetchusers\fetchuser.component.ts" />
-    <None Remove="ClientApp\app\components\schedules\schedules.component.ts" />
     <None Remove="ClientApp\app\services\doctors.service.ts" />
     <None Remove="ClientApp\app\services\patients.service.ts" />
     <None Remove="ClientApp\app\services\schedules.service.ts" />
@@ -50,7 +49,6 @@
     <TypeScriptCompile Include="ClientApp\app\components\fetchpatient\fetchpatient.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\fetchdoctor\fetchdoctor.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\fetchusers\fetchuser.component.ts" />
-    <TypeScriptCompile Include="ClientApp\app\components\schedules\schedules.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\adduser\adduser.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\schedules.service.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\patients.service.ts" />

@@ -15,6 +15,7 @@ export class CreateSchedule implements OnInit {
     id: number = 0;
     errorMessage: any;
     timeList = new Array<string>();
+    searchResult = [];
 
     constructor(private _fb: FormBuilder, private _avRoute: ActivatedRoute,
         private _scheduleService: ScheduleService, private _router: Router) {
@@ -30,7 +31,7 @@ export class CreateSchedule implements OnInit {
             patientName: ['', [Validators.required]],
             date: ['', [Validators.required]],
             time: ['', [Validators.required]]
-        })
+        });
     }
 
     ngOnInit() {
@@ -50,8 +51,6 @@ export class CreateSchedule implements OnInit {
             else
                 this.timeList.push(i + ":00");
         }
-
-        console.log(this.timeList);
     }
 
     save() {

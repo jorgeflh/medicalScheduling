@@ -48,6 +48,14 @@ export class ScheduleService {
             .catch(this.errorHandler);
     }
 
+    searchWord(term:any) {
+        return this._http.get("https://api.datamuse.com/words?ml=" + term).map(res => {
+            return res.json().map(item => {
+                return item.word
+            })
+        })
+    }
+
     errorHandler(error: Response) {
         console.log(error);
         return Observable.throw(error);
