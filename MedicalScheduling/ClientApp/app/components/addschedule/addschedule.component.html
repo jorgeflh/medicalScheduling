@@ -6,7 +6,7 @@
             <label class="control-label col-md-12">Médico</label>
             <div class="col-md-4">
                 <input class="form-control" type="hidden" formControlName="doctorId">
-                <input class="form-control" type="text" formControlName="doctorName" [(ngModel)]="doctorName" (keyup)="searchDoctor(doctorName)" />
+                <input class="form-control" type="text" formControlName="doctorName" (keyup)="searchDoctor(doctorName)" />
                 <div class="search-result" *ngIf="flagDoctor">
                     <ul class="list-group">
                         <li *ngFor="let doctor of doctors | async" class="list-group-item">
@@ -24,7 +24,7 @@
             <label class="control-label col-md-12">Paciente</label>
             <div class="col-md-4">
                 <input class="form-control" type="hidden" formControlName="patientId">
-                <input class="form-control" type="text" formControlName="patientName" [(ngModel)]="patientName" (keyup)="searchPatient(patientName)" />
+                <input class="form-control" type="text" formControlName="patientName" (keyup)="searchPatient(patientName)" />
                 <div class="search-result" *ngIf="flagPatient">
                     <ul class="list-group">
                         <li *ngFor="let patient of patients | async" class="list-group-item">

@@ -20,7 +20,6 @@
             <table class='table table-striped' *ngIf="scheduleList" cellspacing="0" cellpadding="0">
                 <thead>
                     <tr>
-                        <th>Id</th>
                         <th>Médico</th>
                         <th>Paciente</th>
                         <th>Data</th>
@@ -30,7 +29,6 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let schedule of scheduleList">
-                        <td>{{ schedule.id }}</td>
                         <td>{{ schedule.doctorName }}</td>
                         <td>{{ schedule.patientName }}</td>
                         <td>{{ schedule.date }}</td>
