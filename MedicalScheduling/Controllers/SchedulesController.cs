@@ -26,7 +26,7 @@ namespace MedicalScheduling.Controllers
         [HttpGet]
         public IEnumerable<ScheduleDTO> GetSchedules()
         {
-            var scheduleList = _context.Schedules;
+            var scheduleList = _context.Schedules.OrderBy(s => s.Date);
             List<ScheduleDTO> scheduleDTOList = new List<ScheduleDTO>();
 
             foreach (var item in scheduleList)
@@ -44,7 +44,7 @@ namespace MedicalScheduling.Controllers
                 scheduleDTOList.Add(scheduleDTO);
             }
 
-            return scheduleDTOList.OrderByDescending(s => s.Date);
+            return scheduleDTOList;
         }
 
         // GET: api/Schedules/5
