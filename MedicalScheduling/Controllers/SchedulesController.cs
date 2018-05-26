@@ -44,7 +44,7 @@ namespace MedicalScheduling.Controllers
                 scheduleDTOList.Add(scheduleDTO);
             }
 
-            return scheduleDTOList.OrderByDescending(s => s.Date).ThenBy(s => s.Time);
+            return scheduleDTOList.OrderByDescending(s => s.Date);
         }
 
         // GET: api/Schedules/5
@@ -74,7 +74,7 @@ namespace MedicalScheduling.Controllers
                 Date = schedule.Date.ToString("yyyy-MM-dd"),
                 Time = schedule.Date.ToShortTimeString()
             };
-           
+
             return Ok(scheduleDTO);
         }
 
@@ -93,25 +93,36 @@ namespace MedicalScheduling.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(schedules).State = EntityState.Modified;
+            var scheduleExist = _context.Schedules
+                .Where(s => s.DoctorId == schedules.DoctorId 
+                            && s.PatientId != schedules.PatientId 
+                            && s.Date == schedules.Date)
+                .SingleOrDefault();
 
-            try
+            if (scheduleExist == null && schedules.Date >= DateTime.Now)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SchedulesExists(id))
+                _context.Entry(schedules).State = EntityState.Modified;
+
+                try
                 {
-                    return NotFound();
+                    await _context.SaveChangesAsync();
                 }
-                else
+                catch (DbUpdateConcurrencyException)
                 {
-                    throw;
+                    if (!SchedulesExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
+
+                return NoContent();
             }
 
-            return NoContent();
+            return BadRequest("Horário indisponível nesta data!");
         }
 
         // POST: api/Schedules
@@ -123,11 +134,19 @@ namespace MedicalScheduling.Controllers
             {
                 return BadRequest(ModelState);
             }
-            
-            _context.Schedules.Add(schedules);
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetSchedules", new { id = schedules.Id }, schedules);
+            var scheduleExist = _context.Schedules.Where(s => s.DoctorId == schedules.DoctorId 
+                                        && s.Date == schedules.Date)
+                                        .SingleOrDefault();
+
+            if (scheduleExist == null && schedules.Date >= DateTime.Now)
+            {
+                _context.Schedules.Add(schedules);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction("GetSchedules", new { id = schedules.Id }, schedules);
+            }
+
+            return BadRequest("Horário indisponível nesta data!");
         }
 
         // DELETE: api/Schedules/5

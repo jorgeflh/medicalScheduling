@@ -45,7 +45,7 @@ export class CreateSchedule implements OnInit {
             this.title = "Edit";
             this._scheduleService.getScheduleById(this.id)
                 .subscribe(resp => this.scheduleForm.setValue(resp)
-                , error => this.errorMessage = error);
+                    , error => this.errorMessage = error);
 
             this._scheduleService.getScheduleById(this.id)
                 .subscribe(resp => console.log(resp), error => this.errorMessage = error);
@@ -65,7 +65,7 @@ export class CreateSchedule implements OnInit {
             .catch(error => {
                 console.log(error);
                 return Observable.of<any[]>([]);
-            });  
+            });
 
         this.patients = this.searchPatientTerms
             .debounceTime(300)
@@ -74,7 +74,7 @@ export class CreateSchedule implements OnInit {
             .catch(error => {
                 console.log(error);
                 return Observable.of<any[]>([]);
-            });  
+            });
     }
 
     save() {
@@ -86,14 +86,16 @@ export class CreateSchedule implements OnInit {
             this._scheduleService.saveSchedule(this.scheduleForm.value)
                 .subscribe((data) => {
                     this._router.navigate(['/fetch-schedule']);
-                }, error => this.errorMessage = error)
+                }, error => this.errorMessage = error._body)
+
+            console.log(this.errorMessage);
         }
         else if (this.title == "Edit") {
             console.log("id = " + this.scheduleForm.controls['id'].value);
             this._scheduleService.updateSchedule(this.scheduleForm.controls['id'].value, this.scheduleForm.value)
                 .subscribe((data) => {
                     this._router.navigate(['/fetch-schedule']);
-                }, error => this.errorMessage = error)
+                }, error => this.errorMessage = error._body)
         }
     }
 
@@ -114,7 +116,7 @@ export class CreateSchedule implements OnInit {
         this.searchDoctorTerms.next(term);
     }
 
-    onselectDoctor(DoctorObj:any) {
+    onselectDoctor(DoctorObj: any) {
         if (DoctorObj.doctorId != 0) {
             this.scheduleForm.get('doctorId')!.setValue(DoctorObj.id);
             this.scheduleForm.get('doctorName')!.setValue(DoctorObj.name);
@@ -123,7 +125,7 @@ export class CreateSchedule implements OnInit {
         else {
             return false;
         }
-    }  
+    }
 
     // Fetch patients
     searchPatient(term: string): void {
@@ -140,5 +142,5 @@ export class CreateSchedule implements OnInit {
         else {
             return false;
         }
-    }  
+    }
 }
