@@ -22,11 +22,21 @@ namespace MedicalScheduling.Controllers
         }
 
         // GET: api/Schedules
-        [Route("~/api/GetAllSchedules")]
+        [Route("~/api/GetAllSchedules/{doctorId?}")]
         [HttpGet]
-        public IEnumerable<ScheduleDTO> GetSchedules()
+        public IEnumerable<ScheduleDTO> GetSchedules(int doctorId)
         {
-            var scheduleList = _context.Schedules.OrderBy(s => s.Date);
+            IQueryable<Schedules> scheduleList = null;
+
+            if (doctorId <= 0)
+            {
+                scheduleList = _context.Schedules.OrderBy(s => s.Date);
+            }
+            else
+            {
+                scheduleList = _context.Schedules.Where(s => s.DoctorId == doctorId).OrderBy(s => s.Date);
+            }
+
             List<ScheduleDTO> scheduleDTOList = new List<ScheduleDTO>();
 
             foreach (var item in scheduleList)
@@ -50,7 +60,7 @@ namespace MedicalScheduling.Controllers
         // GET: api/Schedules/5
         [Route("~/api/GetSchedule/{id}")]
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetSchedules([FromRoute] int id)
+        public async Task<IActionResult> GetSchedule([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
@@ -94,8 +104,8 @@ namespace MedicalScheduling.Controllers
             }
 
             var scheduleExist = _context.Schedules
-                .Where(s => s.DoctorId == schedules.DoctorId 
-                            && s.PatientId != schedules.PatientId 
+                .Where(s => s.DoctorId == schedules.DoctorId
+                            && s.PatientId != schedules.PatientId
                             && s.Date == schedules.Date)
                 .SingleOrDefault();
 
@@ -135,7 +145,7 @@ namespace MedicalScheduling.Controllers
                 return BadRequest(ModelState);
             }
 
-            var scheduleExist = _context.Schedules.Where(s => s.DoctorId == schedules.DoctorId 
+            var scheduleExist = _context.Schedules.Where(s => s.DoctorId == schedules.DoctorId
                                         && s.Date == schedules.Date)
                                         .SingleOrDefault();
 

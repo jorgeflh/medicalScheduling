@@ -22,7 +22,7 @@ export class ScheduleService {
 
         console.log(doctorList);
         return doctorList;
-    }  
+    }
 
     searchPatient(term: string): Observable<any[]> {
         var patientList = this._http.get(this.myAppUrl + 'api/GetPatientList/' + term)
@@ -32,12 +32,18 @@ export class ScheduleService {
 
         console.log(patientList);
         return patientList;
-    }  
-    
-    getSchedules() {
-        return this._http.get(this.myAppUrl + 'api/GetAllSchedules')
-            .map((response: Response) => response.json())
-            .catch(this.errorHandler);
+    }
+
+    getSchedules(id: number) {
+        if (id <= 0) {
+            return this._http.get(this.myAppUrl + 'api/GetAllSchedules')
+                .map((response: Response) => response.json())
+                .catch(this.errorHandler);
+        } else {
+            return this._http.get(this.myAppUrl + 'api/GetAllSchedules/' + id)
+                .map((response: Response) => response.json())
+                .catch(this.errorHandler);
+        }
     }
 
     getScheduleById(id: number) {
@@ -66,7 +72,7 @@ export class ScheduleService {
             .catch(this.errorHandler);
     }
 
-    deleteSchedule(id:number) {
+    deleteSchedule(id: number) {
         return this._http.delete(this.myAppUrl + "api/DeleteSchedule/" + id)
             .map((response: Response) => response.json())
             .catch(this.errorHandler);

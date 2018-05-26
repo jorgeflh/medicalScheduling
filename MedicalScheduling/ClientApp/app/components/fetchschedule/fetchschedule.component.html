@@ -12,7 +12,14 @@
     </div> <!-- /#top -->
 
     <hr />
+    
     <div id="list" class="row">
+        <div class="col-md-4">
+            <select class="form-control" #t (change)="getSchedules(t.value)">
+                <option value="0">Todos</option>
+                <option *ngFor="let doctor of doctorList" [value]="doctor.id">{{doctor.name}}</option>
+            </select>
+        </div>
         <div class="table-responsive col-md-12">
 
             <p *ngIf="!scheduleList"><em>Loading...</em></p>
