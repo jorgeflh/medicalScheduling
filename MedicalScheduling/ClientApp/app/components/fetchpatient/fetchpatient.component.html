@@ -9,7 +9,7 @@
                 <a class="btn btn-primary pull-right h2" [routerLink]="['/register-patient']">Novo Paciente</a>
             </p>
         </div>
-    </div> <!-- /#top -->
+    </div>
 
     <hr />
     <div id="list" class="row">
@@ -37,17 +37,14 @@
                 </tbody>
             </table>
         </div>
-    </div> <!-- /#list -->
+    </div>
 
     <div id="bottom" class="row">
         <div class="col-md-12">
             <ul class="pagination">
                 <li *ngIf="paging.pageNumber > 1"><a (click)="getPatients(paging.pageNumber - 1, paging.pageSize)">&lt; Anterior</a></li>
-                <!--<li class="disabled"><a>1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>-->
                 <li class="next" *ngIf="paging.pageNumber < paging.totalPages"><a (click)="getPatients(paging.pageNumber + 1, paging.pageSize)" rel="next">Próximo &gt;</a></li>
-            </ul><!-- /.pagination -->
+            </ul>
         </div>
-    </div> <!-- /#bottom -->
-</div>  <!-- /#main -->
+    </div> 
+</div> 

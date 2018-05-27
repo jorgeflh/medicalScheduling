@@ -14,8 +14,8 @@ export class UserService {
         this.myAppUrl = baseUrl;
     }
     
-    getUsers() {
-        return this._http.get(this.myAppUrl + 'api/GetAllUsers')
+    getUsers(pageNumber: number, pageSize: number) {
+        return this._http.get(this.myAppUrl + 'api/GetAllUsers?pageNumber=' + pageNumber + '&pageSize=' + pageSize)
             .map((response: Response) => response.json())
             .catch(this.errorHandler);
     }

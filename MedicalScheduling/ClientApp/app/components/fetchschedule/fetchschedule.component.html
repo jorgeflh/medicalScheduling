@@ -12,10 +12,10 @@
     </div> <!-- /#top -->
 
     <hr />
-    
+
     <div id="list" class="row">
         <div class="col-md-4">
-            <select class="form-control" #t (change)="getSchedules(t.value)">
+            <select class="form-control" #t (change)="getSchedules(1,5,t.value)">
                 <option value="0">Todos</option>
                 <option *ngFor="let doctor of doctorList" [value]="doctor.id">{{doctor.name}}</option>
             </select>
@@ -53,12 +53,9 @@
     <div id="bottom" class="row">
         <div class="col-md-12">
             <ul class="pagination">
-                <li class="disabled"><a>&lt; Anterior</a></li>
-                <li class="disabled"><a>1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li class="next"><a href="#" rel="next">Próximo &gt;</a></li>
-            </ul><!-- /.pagination -->
+                <li *ngIf="paging.pageNumber > 1"><a (click)="getSchedules(paging.pageNumber - 1, paging.pageSize)">&lt; Anterior</a></li>
+                <li class="next" *ngIf="paging.pageNumber < paging.totalPages"><a (click)="getSchedules(paging.pageNumber + 1, paging.pageSize)" rel="next">Próximo &gt;</a></li>
+            </ul>
         </div>
-    </div> <!-- /#bottom -->
+    </div>
 </div>  <!-- /#main -->

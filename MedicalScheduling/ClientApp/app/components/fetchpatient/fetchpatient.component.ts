@@ -8,9 +8,9 @@ import { PatientService } from '../../services/patients.service'
 })
 
 export class FetchPatientComponent {
-    public paging: Paging;
-    public link: Link[];
-    public patientsList: PatientData[];
+    public paging?: Paging;
+    public link: Link[] = [];
+    public patientsList: PatientData[] = [];
     public pageNumber = 1;
     public pageSize = 5;
     public pages = [];
@@ -40,7 +40,7 @@ interface Paging {
     totalItems: number,
     pageNumber: number,
     pageSize: number,
-    totalPage: number
+    totalPages: number
 }
 
 interface Link {

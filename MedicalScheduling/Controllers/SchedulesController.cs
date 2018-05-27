@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MedicalScheduling.Models;
 using MedicalScheduling.DTO;
+using MedicalScheduling.Types;
 
 namespace MedicalScheduling.Controllers
 {
@@ -15,36 +16,48 @@ namespace MedicalScheduling.Controllers
     public class SchedulesController : Controller
     {
         private readonly MedicalSchedulingContext _context;
+        private readonly IUrlHelper urlHelper;
 
-        public SchedulesController(MedicalSchedulingContext context)
+        public SchedulesController(MedicalSchedulingContext context, IUrlHelper urlHelper)
         {
             _context = context;
+            this.urlHelper = urlHelper;
         }
 
         // GET: api/Schedules
-        [Route("~/api/GetAllSchedules/{doctorId?}")]
+        [Route("~/api/GetAllSchedules", Name = "GetAllSchedules")]
         [HttpGet]
-        public IEnumerable<ScheduleDTO> GetSchedules(int doctorId)
+        public IActionResult GetSchedules(PagingParams pagingParams, int doctorId = 0)
         {
-            IQueryable<Schedules> scheduleList = null;
+            IQueryable<Schedules> query = null;
 
             if (doctorId <= 0)
             {
-                scheduleList = _context.Schedules.OrderBy(s => s.Date);
+                query = _context.Schedules.AsQueryable().OrderBy(s => s.Date);
             }
             else
             {
-                scheduleList = _context.Schedules.Where(s => s.DoctorId == doctorId).OrderBy(s => s.Date);
+                query = _context.Schedules.AsQueryable().Where(s => s.DoctorId == doctorId).OrderBy(s => s.Date);
             }
+
+            var model = new PagedList<Schedules>(query, pagingParams.PageNumber, pagingParams.PageSize);
+            Response.Headers.Add("X-Pagination", model.GetHeader().ToJson());
+
+            var schedulePaging = new SchedulePaging
+            {
+                Paging = model.GetHeader(),
+                Links = GetLinks(model),
+                Items = model.List.ToList()
+            };
 
             List<ScheduleDTO> scheduleDTOList = new List<ScheduleDTO>();
 
-            foreach (var item in scheduleList)
+            foreach (var item in schedulePaging.Items)
             {
                 ScheduleDTO scheduleDTO = new ScheduleDTO
                 {
                     Id = item.Id,
-                    DoctorId = item.DoctorId,
+                    DoctorId = item.Id,
                     DoctorName = _context.Doctors.Where(d => d.Id == item.DoctorId).SingleOrDefault().Name,
                     PatientId = item.PatientId,
                     PatientName = _context.Patients.Where(p => p.Id == item.PatientId).SingleOrDefault().Name,
@@ -54,7 +67,14 @@ namespace MedicalScheduling.Controllers
                 scheduleDTOList.Add(scheduleDTO);
             }
 
-            return scheduleDTOList;
+            var scheduleOutputModel = new ScheduleOutputModel
+            {
+                Paging = schedulePaging.Paging,
+                Links = schedulePaging.Links,
+                Items = scheduleDTOList
+            };
+
+            return Ok(scheduleOutputModel);
         }
 
         // GET: api/Schedules/5
@@ -184,6 +204,33 @@ namespace MedicalScheduling.Controllers
         private bool SchedulesExists(int id)
         {
             return _context.Schedules.Any(e => e.Id == id);
+        }
+
+        private List<LinkInfo> GetLinks(PagedList<Schedules> list)
+        {
+            var links = new List<LinkInfo>();
+
+            if (list.HasPreviousPage)
+                links.Add(CreateLink("GetAllSchedules", list.PreviousPageNumber, list.PageSize, "previousPage", "GET"));
+
+            links.Add(CreateLink("GetAllSchedules", list.PageNumber, list.PageSize, "self", "GET"));
+
+            if (list.HasNextPage)
+                links.Add(CreateLink("GetAllSchedules", list.NextPageNumber, list.PageSize, "nextPage", "GET"));
+
+            return links;
+        }
+
+        private LinkInfo CreateLink(string routeName, int pageNumber, int pageSize, string rel, string method)
+        {
+            var link = urlHelper.Link(routeName, new { PageNumber = pageNumber, PageSize = pageSize });
+
+            return new LinkInfo
+            {
+                Href = link,
+                Rel = rel,
+                Method = method
+            };
         }
     }
 }

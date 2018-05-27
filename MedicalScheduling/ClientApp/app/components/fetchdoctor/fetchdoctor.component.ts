@@ -9,14 +9,19 @@ import { DoctorService } from '../../services/doctors.service'
 
 export class FetchDoctorComponent {
     public doctorsList: DoctorData[] = [];
+    public paging?: Paging;
+    public link: Link[] = [];
+    public pageNumber = 1;
+    public pageSize = 5;
+    public pages = [];
 
     constructor(public http: Http, private _router: Router, private _doctorService: DoctorService) {
-        this.getDoctors();
+        this.getDoctors(this.pageNumber, this.pageSize);
     }
 
-    getDoctors() {
-        this._doctorService.getDoctors().subscribe(
-            data => this.doctorsList = data
+    getDoctors(pageNumber: number, pageSize: number) {
+        this._doctorService.getDoctors(pageNumber, pageSize).subscribe(
+            data => (this.paging = data.paging, this.link = data.links, this.doctorsList = data.items)
         )
     }
 
@@ -24,10 +29,23 @@ export class FetchDoctorComponent {
         var ans = confirm("Você quer deletar o médico de Id: " + id);
         if (ans) {
             this._doctorService.deleteDoctor(id).subscribe((data) => {
-                this.getDoctors();
+                this.getDoctors(this.pageNumber, this.pageSize);
             }, error => console.error(error))
         }
     }
+}
+
+interface Paging {
+    totalItems: number,
+    pageNumber: number,
+    pageSize: number,
+    totalPages: number
+}
+
+interface Link {
+    href: string,
+    rel: string,
+    method: string
 }
 
 interface DoctorData {

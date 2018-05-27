@@ -14,8 +14,14 @@ export class DoctorService {
         this.myAppUrl = baseUrl;
     }
     
-    getDoctors() {
-        return this._http.get(this.myAppUrl + 'api/GetAllDoctors')
+    getDoctors(pageNumber: number, pageSize: number) {
+        return this._http.get(this.myAppUrl + 'api/GetAllDoctors?pageNumber=' + pageNumber + '&pageSize=' + pageSize)
+            .map((response: Response) => response.json())
+            .catch(this.errorHandler);
+    }
+
+    getDoctorsList() {
+        return this._http.get(this.myAppUrl + 'api/GetDoctorsList')
             .map((response: Response) => response.json())
             .catch(this.errorHandler);
     }

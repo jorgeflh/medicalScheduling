@@ -11,24 +11,25 @@ import { DoctorService } from '../../services/doctors.service';
 export class FetchScheduleComponent {
     public scheduleList: ScheduleData[] = [];
     public doctorList: DoctorData[] = [];
+    public paging?: Paging;
+    public link: Link[] = [];
+    public pageNumber = 1;
+    public pageSize = 5;
+    public pages = [];
 
     constructor(public http: Http, private _router: Router, private _scheduleService: ScheduleService, private _doctorService: DoctorService) {
-        this.getSchedules();
+        this.getSchedules(this.pageNumber, this.pageSize);
         this.getDoctors();
     }
 
-    ngOnInit() {
-        console.log(this.doctorList);
-    }
-
-    getSchedules(id:number = 0) {
-        this._scheduleService.getSchedules(id).subscribe(
-            data => this.scheduleList = data
+    getSchedules(pageNumber: number, pageSize: number, id:number = 0) {
+        this._scheduleService.getSchedules(pageNumber, pageSize, id).subscribe(
+            data => (this.paging = data.paging, this.link = data.links, this.scheduleList = data.items)
         )
     }
 
     getDoctors() {
-        this._doctorService.getDoctors().subscribe(
+        this._doctorService.getDoctorsList().subscribe(
             data => this.doctorList = data
         )
     }
@@ -37,10 +38,23 @@ export class FetchScheduleComponent {
         var ans = confirm("Você quer deletar o agendamento de Id: " + id);
         if (ans) {
             this._scheduleService.deleteSchedule(id).subscribe((data) => {
-                this.getSchedules();
+                this.getSchedules(this.pageNumber, this.pageSize);
             }, error => console.error(error))
         }
     }
+}
+
+interface Paging {
+    totalItems: number,
+    pageNumber: number,
+    pageSize: number,
+    totalPages: number
+}
+
+interface Link {
+    href: string,
+    rel: string,
+    method: string
 }
 
 interface ScheduleData {

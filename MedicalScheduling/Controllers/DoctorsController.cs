@@ -44,6 +44,14 @@ namespace MedicalScheduling.Controllers
             return Ok(outputModel);
         }
 
+        // GET: api/Doctors
+        [Route("~/api/GetDoctorsList")]
+        [HttpGet]
+        public IEnumerable<Doctors> GetDoctorsList()
+        {
+            return _context.Doctors;
+        }
+
         [Route("~/api/GetDoctorList/{term}")]
         [HttpGet]
         public IEnumerable<Doctors> GetDoctorList([FromRoute] string term)

@@ -34,13 +34,13 @@ export class ScheduleService {
         return patientList;
     }
 
-    getSchedules(id: number) {
+    getSchedules(pageNumber: number, pageSize: number, id: number) {
         if (id <= 0) {
-            return this._http.get(this.myAppUrl + 'api/GetAllSchedules')
+            return this._http.get(this.myAppUrl + 'api/GetAllSchedules?pageNumber=' + pageNumber + '&pageSize=' + pageSize)
                 .map((response: Response) => response.json())
                 .catch(this.errorHandler);
         } else {
-            return this._http.get(this.myAppUrl + 'api/GetAllSchedules/' + id)
+            return this._http.get(this.myAppUrl + 'api/GetAllSchedules?pageNumber=' + pageNumber + '&pageSize=' + pageSize + '&doctorId=' + id)
                 .map((response: Response) => response.json())
                 .catch(this.errorHandler);
         }
