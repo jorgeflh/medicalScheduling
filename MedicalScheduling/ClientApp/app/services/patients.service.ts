@@ -14,8 +14,8 @@ export class PatientService {
         this.myAppUrl = baseUrl;
     }
     
-    getPatients() {
-        return this._http.get(this.myAppUrl + 'api/GetAllPatients')
+    getPatients(pageNumber: number, pageSize: number) {
+        return this._http.get(this.myAppUrl + 'api/GetAllPatients?pageNumber=' + pageNumber + '&pageSize=' + pageSize)
             .map((response: Response) => response.json())
             .catch(this.errorHandler);
     }

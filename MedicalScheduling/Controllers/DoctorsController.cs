@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MedicalScheduling.Models;
+using MedicalScheduling.Types;
+using MedicalScheduling.DTO;
 
 namespace MedicalScheduling.Controllers
 {
@@ -14,18 +16,32 @@ namespace MedicalScheduling.Controllers
     public class DoctorsController : Controller
     {
         private readonly MedicalSchedulingContext _context;
+        private readonly IUrlHelper urlHelper;
 
-        public DoctorsController(MedicalSchedulingContext context)
+        public DoctorsController(MedicalSchedulingContext context, IUrlHelper urlHelper)
         {
             _context = context;
+            this.urlHelper = urlHelper;
         }
 
         // GET: api/Doctors
-        [Route("~/api/GetAllDoctors")]
+        [Route("~/api/GetAllDoctors", Name = "GetAllDoctors")]
         [HttpGet]
-        public IEnumerable<Doctors> GetDoctors()
+        public IActionResult GetDoctors(PagingParams pagingParams)
         {
-            return _context.Doctors;
+            var query = _context.Doctors.AsQueryable();
+            var model = new PagedList<Doctors>(query, pagingParams.PageNumber, pagingParams.PageSize);
+
+            Response.Headers.Add("X-Pagination", model.GetHeader().ToJson());
+
+            var outputModel = new DoctorOutputModel
+            {
+                Paging = model.GetHeader(),
+                Links = GetLinks(model),
+                Items = model.List.ToList(),
+            };
+
+            return Ok(outputModel);
         }
 
         [Route("~/api/GetDoctorList/{term}")]
@@ -133,6 +149,33 @@ namespace MedicalScheduling.Controllers
         private bool DoctorsExists(int id)
         {
             return _context.Doctors.Any(e => e.Id == id);
+        }
+
+        private List<LinkInfo> GetLinks(PagedList<Doctors> list)
+        {
+            var links = new List<LinkInfo>();
+
+            if (list.HasPreviousPage)
+                links.Add(CreateLink("GetAllDoctors", list.PreviousPageNumber, list.PageSize, "previousPage", "GET"));
+
+            links.Add(CreateLink("GetAllDoctors", list.PageNumber, list.PageSize, "self", "GET"));
+
+            if (list.HasNextPage)
+                links.Add(CreateLink("GetAllDoctors", list.NextPageNumber, list.PageSize, "nextPage", "GET"));
+
+            return links;
+        }
+
+        private LinkInfo CreateLink(string routeName, int pageNumber, int pageSize, string rel, string method)
+        {
+            var link = urlHelper.Link(routeName, new { PageNumber = pageNumber, PageSize = pageSize });
+
+            return new LinkInfo
+            {
+                Href = link,
+                Rel = rel,
+                Method = method
+            };
         }
     }
 }

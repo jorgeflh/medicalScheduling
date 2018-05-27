@@ -36,6 +36,7 @@
     <None Remove="ClientApp\app\components\fetchschedule\fetchschedule.component.ts" />
     <None Remove="ClientApp\app\components\fetchusers\fetchuser.component.ts" />
     <None Remove="ClientApp\app\services\doctors.service.ts" />
+    <None Remove="ClientApp\app\services\pagination.service.ts" />
     <None Remove="ClientApp\app\services\patients.service.ts" />
     <None Remove="ClientApp\app\services\schedules.service.ts" />
     <None Remove="ClientApp\app\services\users.service.ts" />
