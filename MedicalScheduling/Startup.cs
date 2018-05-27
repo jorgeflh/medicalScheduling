@@ -9,6 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using MedicalScheduling.Models;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace MedicalScheduling
 {
@@ -24,6 +27,13 @@ namespace MedicalScheduling
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.AddScoped<IUrlHelper>(factory =>
+            {
+                var actionContext = factory.GetService<IActionContextAccessor>().ActionContext;
+                return new UrlHelper(actionContext);
+            });
+
             services.AddMvc();
 
             services.AddDbContext<MedicalSchedulingContext>(options =>
