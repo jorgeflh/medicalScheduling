@@ -38,7 +38,11 @@
             </table>
         </div>
     </div>
-
+    <div class="form-group row" *ngIf="errorMessage">
+        <div class="col-md-12">
+            <span class="alert alert-warning">{{errorMessage}}</span>
+        </div>
+    </div>
     <div id="bottom" class="row">
         <div class="col-md-12">
             <ul class="pagination">
@@ -46,5 +50,5 @@
                 <li class="next" *ngIf="paging.pageNumber < paging.totalPages"><a (click)="getPatients(paging.pageNumber + 1, paging.pageSize)" rel="next">Próximo &gt;</a></li>
             </ul>
         </div>
-    </div> 
+    </div>
 </div> 

@@ -14,6 +14,7 @@ export class FetchPatientComponent {
     public pageNumber = 1;
     public pageSize = 5;
     public pages = [];
+    public errorMessage = "";
 
     constructor(public http: Http, private _router: Router, private _patientService: PatientService) {
         this.getPatients(this.pageNumber, this.pageSize);
@@ -31,7 +32,7 @@ export class FetchPatientComponent {
         if (ans) {
             this._patientService.deletePatient(id).subscribe((data) => {
                 this.getPatients(this.pageNumber, this.pageSize);
-            }, error => console.error(error))
+            }, error => this.errorMessage = error._body)
         }
     }
 }

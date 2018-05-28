@@ -140,6 +140,13 @@ namespace MedicalScheduling.Controllers
                 return NotFound();
             }
 
+            var schedules = _context.Schedules.Where(s => s.PatientId == id).ToList();
+
+            if (schedules != null)
+            {
+                return BadRequest("O paciente possui agendamento!");
+            }
+
             _context.Patients.Remove(patients);
             await _context.SaveChangesAsync();
 
